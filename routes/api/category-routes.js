@@ -1,5 +1,7 @@
-const router = require('express').Router();
-const { Category, Product } = require('../../models');
+import express from 'express';
+var router = express.Router();
+import { Category, Product } from '../../models';
+
 
 // The `/api/categories` endpoint
 
@@ -25,4 +27,4 @@ router.delete('/:id', (req, res) => {
   // delete a category by its `id` value
 });
 
-module.exports = router;
+export default router;
