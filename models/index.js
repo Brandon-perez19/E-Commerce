@@ -16,16 +16,19 @@ Category.hasMany(Product, {
 Product.belongsToMany(Tag, {
   through: ProductTag,
   as: 'tagged_product',
-  foreignkey: 'product_id'
+  foreignkey: 'product_id',
+  onDelete: 'CASCADE'
 })
 
 // Tags belongToMany Products (through ProductTag)
 Tag.belongsToMany (Product, {
   through: ProductTag,
   as: 'tagged_product',
-  foreignkey: 'tag_id'
+  foreignkey: 'tag_id',
+  onDelete: 'CASCADE'
 })
 
+//export associations
 export {
   Product,
   Category,

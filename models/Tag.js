@@ -1,10 +1,15 @@
+//import sequelize and associated methods
 import pkg from 'sequelize';
-const { Sequelize, Model, DataTypes } = pkg;
+const { Model, DataTypes } = pkg;
+
+// import our database connection from config.js
 import sequelize from '../config/connection.js';
 
+// Initialize Tag model (table) by extending off Sequelize's Model class
 class Tag extends Model {}
 
 Tag.init(
+  //defining columns
   {
     id:{
       type: DataTypes.INTEGER,
@@ -15,7 +20,7 @@ Tag.init(
     tag_name:{
       type: DataTypes.STRING
     }
-  },
+  }, //table configuration options
   {
     sequelize,
     timestamps: false,
@@ -25,4 +30,5 @@ Tag.init(
   }
 );
 
+//export
 export default Tag;

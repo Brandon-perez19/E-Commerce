@@ -1,7 +1,11 @@
+//import sequelize and associated methods
 import pkg from 'sequelize';
 const { Sequelize, Model, DataTypes } = pkg;
+
+// import our database connection from config.js
 import sequelize from '../config/connection.js'
 
+// Initialize category model (table) by extending off Sequelize's Model class
 class Category extends Model {}
 
 Category.init(
@@ -16,7 +20,7 @@ Category.init(
       type: DataTypes.STRING,
       allowNull: false
     }
-  },
+  }, //table configuration options
   {
     sequelize,
     timestamps: false,
@@ -26,4 +30,5 @@ Category.init(
   }
 );
 
+//export
 export default Category;

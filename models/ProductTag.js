@@ -1,7 +1,11 @@
+//import sequelize and associated methods
 import pkg from 'sequelize';
 const { Sequelize, Model, DataTypes } = pkg;
+
+// import our database connection from config.js
 import sequelize from '../config/connection.js';
 
+// Initialize ProductTag model (table) by extending off Sequelize's Model class
 class ProductTag extends Model {}
 
 ProductTag.init(
@@ -26,7 +30,7 @@ ProductTag.init(
         key: 'id'
       }
     }
-  },
+  }, //table configuration options
   {
     sequelize,
     timestamps: false,
@@ -35,5 +39,5 @@ ProductTag.init(
     modelName: 'product_tag',
   }
 );
-
+//export
 export default ProductTag;

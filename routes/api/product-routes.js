@@ -1,5 +1,8 @@
+//import express/router set up
 import express from 'express';
 var router = express.Router();
+
+//import associations
 import { Category } from '../../models/index.js';
 import { Product } from '../../models/index.js';
 import { Tag } from '../../models/index.js';
@@ -10,6 +13,7 @@ import { ProductTag } from '../../models/index.js';
 // get all products
 router.get('/', (req, res) => {
   Product.findAll({
+    //include category model, and tag model. Not directly related, need to use producttag model as intermediate
     include: [
       {
         model: Category,
@@ -22,22 +26,23 @@ router.get('/', (req, res) => {
         as: "tagged_product"
       }
     ]
-  })
+  })//display
     .then(dbProductdata => res.json(dbProductdata))
+    //catch all 
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
     })
-  // find all products
-  // be sure to include its associated Category and Tag data
 });
 
-// get one product
+// get one product based on id value
 router.get('/:id', (req, res) => {
   Product.findOne({
+    //finds based on id
     where: {
       id: req.params.id
     },
+    //includes category and tag (through producttag)
     include: [
       {
         model: Category,
@@ -52,17 +57,18 @@ router.get('/:id', (req, res) => {
     ]
   })
     .then(dbProductdata => {
+      //if no id value exists
       if (!dbProductdata) {
         res.json(404).json({ message: 'No  found with that ID.' })
       }
+      //display
       res.json(dbProductdata)
     })
+    //catch all
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
     })
-  // find a single product by its `id`
-  // be sure to include its associated Category and Tag data
 });
 
 // create new product
@@ -97,7 +103,7 @@ router.post('/', (req, res) => {
     });
 });
 
-// update product
+// update product based on id
 router.put('/:id', (req, res) => {
   // update product data
   Product.update(req.body, {
@@ -139,23 +145,28 @@ router.put('/:id', (req, res) => {
     });
 });
 
+//deletes product based on id
 router.delete('/:id', (req, res) => {
   Product.destroy({
-      where: {
-          id: req.params.id
-      }
+    //finds product based off id
+    where: {
+      id: req.params.id
+    }
   })
-      .then(dbProductdata => {
-          if (!dbProductdata) {
-              res.status(404).json({ message: 'No product found with this id' });
-              return;
-          }
-          res.json(dbPostData);
-      })
-      .catch(err => {
-          console.log(err);
-          res.status(500).json(err);
-      });
+    .then(dbProductdata => {
+      //if id doesnt exists
+      if (!dbProductdata) {
+        res.status(404).json({ message: 'No product found with this id' });
+      }
+      //display
+      res.json(dbPostData);
+    })
+    //catch all
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
+//export 
 export default router;

@@ -1,6 +1,7 @@
 // import important parts of sequelize library
 import pkg from 'sequelize';
 const { Model, DataTypes } = pkg;
+
 // import our database connection from config.js
 import sequelize from '../config/connection.js';
 
@@ -42,7 +43,7 @@ Product.init(
         key:'id'
       }
     }
-  },
+  }, //table configuration options
   {
     sequelize,
     timestamps: false,
@@ -52,4 +53,5 @@ Product.init(
   }
 );
 
+//exporty
 export default Product;
