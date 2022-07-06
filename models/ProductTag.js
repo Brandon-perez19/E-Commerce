@@ -21,14 +21,16 @@ ProductTag.init(
       references: {
         model: 'product',
         key: 'id'
-      }
+      },//needed due to parent table foreign key restriction
+      onDelete: 'CASCADE'
     },
     tag_id:{
       type: DataTypes.INTEGER,
       references: {
         model: 'tag',
         key: 'id'
-      }
+      },//needed due to parent table foreign key restriction
+      onDelete: 'Cascade'
     }
   }, //table configuration options
   {
