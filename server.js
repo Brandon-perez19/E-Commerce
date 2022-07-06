@@ -1,4 +1,4 @@
-import routes from './routes'
+import routes from './routes/index.js'
 import express from 'express';
 // import sequelize connection
 import sequelize from './config/connection.js'

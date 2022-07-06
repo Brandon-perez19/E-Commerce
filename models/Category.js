@@ -1,4 +1,5 @@
-import { Model, DataTypes} from 'sequelize'
+import pkg from 'sequelize';
+const { Sequelize, Model, DataTypes } = pkg;
 import sequelize from '../config/connection.js'
 
 class Category extends Model {}

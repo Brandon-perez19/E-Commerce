@@ -1,6 +1,7 @@
 import express from 'express';
 var router = express.Router();
-import { Category, Product } from '../../models';
+import {Product} from '../../models/index.js';
+import {Category} from '../../models/index.js';
 
 // The `/api/categories` endpoint
 router.get('/', (req, res) => {
@@ -8,7 +9,7 @@ router.get('/', (req, res) => {
     include: [
       {
         model: Product,
-        attributes:["id", "category_name"],
+        attributes:["id", "category_id"],
       }
     ]
   })
@@ -27,7 +28,7 @@ router.get('/:id', (req, res) => {
     include: [
       {
         model: Product,
-        attributes:["id", "category_name"],
+        attributes:["id", "category_id"],
       }
     ]
   })
@@ -36,6 +37,7 @@ router.get('/:id', (req, res) => {
       res.status(404).json({ message: 'No Category found with this ID.'})
       return;
     }
+    console.log(dbCategorydata)
     res.json(dbCategorydata)})
   .catch(err => {
     console.log(err);

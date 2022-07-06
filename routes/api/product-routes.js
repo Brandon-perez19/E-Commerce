@@ -1,17 +1,61 @@
 import express from 'express';
 var router = express.Router();
-import { Product, Category, Tag, ProductTag } from '../../models';
+import {Category} from '../../models/index.js';
+import {Product} from '../../models/index.js';
+import {Tag} from '../../models/index.js';
+import {ProductTag} from '../../models/index.js';
 
 // The `/api/products` endpoint
 
 // get all products
 router.get('/', (req, res) => {
+  Product.findAll({
+    include:[
+      {
+        model:Category,
+        attributes: ['category_name']
+      },
+      {
+        model: Tag,
+        attributes: ['tag_name']
+      }
+    ]
+  })
+  .then(dbProductdata => res.json(dbProductdata))
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  })
   // find all products
   // be sure to include its associated Category and Tag data
 });
 
 // get one product
 router.get('/:id', (req, res) => {
+  Product.findOne({
+    where: {
+      id: req.params.id
+    },
+    include:[
+      {
+        model:Category,
+        attributes: ['category_name']
+      },
+      {
+        model: Tag,
+        attributes: ['tag_name']
+      }
+    ]
+  })
+  .then(dbProductdata => {
+    if(!dbProductdata){
+      res.json(404).json({message: 'No  found with that ID.'})
+    }
+    res.json(dbProductdata)})
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  })
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
 });
@@ -91,6 +135,20 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
+  Product.destroy({
+    where: {
+      id: req.params.id,
+    }
+  })
+  .then(dbProductdata => {
+    if(!dbProductdata){
+      res.json(404).json({message: 'No products found with that ID.'})
+    }
+    res.json(dbProductdata)})
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  })
   // delete one product by its `id` value
 });
 

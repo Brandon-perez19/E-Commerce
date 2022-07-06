@@ -1,6 +1,6 @@
-import { Model, DataTypes } from 'sequelize';
-
-import sequelize from '../config/connection';
+import pkg from 'sequelize';
+const { Sequelize, Model, DataTypes } = pkg;
+import sequelize from '../config/connection.js';
 
 class ProductTag extends Model {}
 
@@ -14,14 +14,14 @@ ProductTag.init(
     },
     product_id:{
       type: DataTypes.INTEGER,
-      reference: {
+      references: {
         model: 'product',
         key: 'id'
       }
     },
     tag_id:{
       type: DataTypes.INTEGER,
-      reference: {
+      references: {
         model: 'tag',
         key: 'id'
       }

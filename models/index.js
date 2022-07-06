@@ -1,12 +1,12 @@
 // import models
-import Product from './Product';
-import Category from './Category'
-import Tag from './Tag';
-import ProductTag from './ProductTag'
+import Product from './Product.js';
+import Category from './Category.js'
+import Tag from './Tag.js';
+import ProductTag from './ProductTag.js'
 
 // Products belongsTo Category
 Product.belongsTo(Category, {
-  foreignkey: 'category_id',
+  foreignkey: 'category_id'
 })
 // Categories have many Products
 Category.hasMany(Product, {
