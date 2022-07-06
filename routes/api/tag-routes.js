@@ -1,6 +1,6 @@
 import express from 'express';
 var router = express.Router();
-import {Product} from '../../models/index.js';
+import {Category, Product} from '../../models/index.js';
 import {Tag} from '../../models/index.js';
 import {ProductTag} from '../../models/index.js';
 
@@ -8,12 +8,10 @@ import {ProductTag} from '../../models/index.js';
 router.get('/', (req, res) => {
   Tag.findAll({
     include: {
-      model: ProductTag,
-      attributes: ["id", "product_id", "tag_id"],
-      include: {
-        model: Product,
-        attributes: ['product_name', 'price']
-      }
+      model: Product,
+      attributes:["id", "product_name", "price", "stock", "category_id"],
+      through: ProductTag,
+      as: "tagged_product"
     }
   })
     .then(dbTagdata => res.json(dbTagdata))
@@ -32,12 +30,10 @@ router.get('/:id', (req, res) => {
     },
     include: [
       {
-        model: ProductTag,
-        attributes: ["id", "product_id", "tag_id"],
-        include: {
-          model: Product,
-          attributes: ['product_name', 'price']
-        }
+        model: Product,
+        attributes:["id", "product_name", "price", "stock", "category_id"],
+        through: ProductTag,
+        as: "tagged_product"
       }
     ]
   })
@@ -46,6 +42,11 @@ router.get('/:id', (req, res) => {
         console.log(error)
         res.status(404).json({ error: "No Tag found with that ID" })
       }
+      res.json(dbTagdata);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
     })
   // find a single tag by its `id`
   // be sure to include its associated Product data
